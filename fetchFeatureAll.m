@@ -63,7 +63,7 @@ for i=1:6
                 %%
                 ori_img_dataset{cnt_img}=disimg;
                 cnt_img=cnt_img+1;
-                fea=analyseNSSFeature(disimg,cnt_img_level); % ·ÖÎöNSS
+                fea=fetchFeature3(disimg,cnt_img_level); % ·ÖÎöNSS
                 fea_mat=[fea_mat;fea];               
 
             end

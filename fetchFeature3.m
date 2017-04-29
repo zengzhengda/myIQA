@@ -53,10 +53,6 @@ for level=1:cnt_img_level
     sigmaC = 0.001;%fixed
     [mu_saliency,sigma_saliency,beta_saliency,VSMap]=fetchSaliencyFeature(disimg,sigmaF,omega0,sigmaD,sigmaC);
     feature_saliency=[mu_saliency,beta_saliency];   
-    %% MN分量的统计特征
-    [M_alpha M_overallstd M_skewness M_kurtosis M_entropy]=fetchNSSFea(M);
-    [N_alpha N_overallstd N_skewness N_kurtosis N_entropy]=fetchNSSFea(N);
-    fea_MN=[M_alpha M_overallstd M_skewness M_kurtosis M_entropy N_alpha N_overallstd N_skewness N_kurtosis N_entropy];
     
     %% FISH特征
     fish_fea=fetch_fish(disimg_gray);% 1项
@@ -66,18 +62,18 @@ for level=1:cnt_img_level
     sharpness_fea=[mlv_fea fish_fea]; % 3项
 %     sharpness_fea=[mlv_fea grad_fea]; % 8项
     %% NSS特征
-    [nss_alpha ,nss_overallstd, nss_skewness, nss_kurtosis ,nss_entropy]=fetchNSSFea(disimg_gray);
-    feature_nss=[nss_alpha nss_overallstd nss_skewness nss_kurtosis nss_entropy]; % 5项
-%     %% 斜度特征
-%     skewness_fea=skewness(disimg_gray(:));
-%     %% 峰度特征
-%     kurtosis_fea=kurtosis(disimg_gray(:));
-%     %% 信息熵特征
-%     entropy_fea=entropy(disimg_gray);
+
+     %% MN分量的统计特征
+    [M_nss_fea]=fetchNSSFea(M);
+    [N_nss_fea]=fetchNSSFea(N);
+    
+    %% L分量NSS特征
+    [L_nss_fea]=fetchNSSFea(disimg_gray);
+    nss_fea=[L_nss_fea(1:5) M_nss_fea(1:5) N_nss_fea(1:5) L_nss_fea(6:10) M_nss_fea(6:10) N_nss_fea(6:10)]; % 前面是mean 后面是median
     %% 特征向量
-    % 基本特征6 鲁棒基本特征6 梯度特征6 鲁棒梯度特征6 sharpness特征3项 MN颜色特征10项 NSS特征5  显著性特征2
+    % 基本特征6 鲁棒基本特征6 梯度特征6 鲁棒梯度特征6 sharpness特征3项 NSS特征30  显著性特征2
     % 共44项
-    feature=[feature feature_base grad_fea feature_base_robust grad_fea_robust fea_MN sharpness_fea feature_nss  feature_saliency];
+    feature=[feature feature_base grad_fea feature_base_robust grad_fea_robust nss_fea sharpness_fea  feature_saliency];
     
     disimg=imresize(disimg,0.5);
 end

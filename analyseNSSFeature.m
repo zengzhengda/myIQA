@@ -17,16 +17,14 @@ for level=1:cnt_img_level
     N = 0.34 * double(disimg(:,:,1)) - 0.60 * double(disimg(:,:,2)) + 0.17 * double(disimg(:,:,3));
 %     histogram(L);
     %% MN分量的统计特征
-    [M_alpha M_overallstd M_skewness M_kurtosis M_entropy]=fetchNSSFea(M);
-    [N_alpha N_overallstd N_skewness N_kurtosis N_entropy]=fetchNSSFea(N);
-    fea_MN=[M_alpha M_overallstd M_skewness M_kurtosis M_entropy N_alpha N_overallstd N_skewness N_kurtosis N_entropy];
+    [M_nss_fea]=fetchNSSFea(M);
+    [N_nss_fea]=fetchNSSFea(N);
     
     %% NSS特征
-    [nss_alpha ,nss_overallstd, nss_skewness, nss_kurtosis ,nss_entropy]=fetchNSSFea(disimg_gray);
-    feature_nss=[nss_alpha nss_overallstd nss_skewness nss_kurtosis nss_entropy]; % 5项
+    [L_nss_fea]=fetchNSSFea(disimg_gray);
     %% 特征向量
     % MN颜色特征10项 NSS特征5
-    feature=[feature fea_MN feature_nss];
+    feature=[feature  L_nss_fea M_nss_fea N_nss_fea];
     
     disimg=imresize(disimg,0.5);
 end
