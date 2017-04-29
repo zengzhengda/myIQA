@@ -9,7 +9,7 @@ dataset_name=dataset_names{1};% 选择数据库
 % load best_svr_param_tid2013;
 
 %% 特征提取   
-fetchFeatureAll(dataset_name);
+% fetchFeatureAll(dataset_name);
 %% 性能评价
 load(['my_mat_' lower(dataset_name)]);
 % 去除参考图像
