@@ -51,7 +51,7 @@ dd=max(dd,d6);
 dd=max(dd,d7);
 dd=max(dd,d8);
 % 最小局部图
-dd2=max(dd2,d2);
+dd2=max(d1,d2);
 dd2=max(dd2,d3);
 dd2=max(dd2,d4);
 dd2=max(dd2,d5);
