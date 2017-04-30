@@ -5,7 +5,7 @@ training_label_vector1=IQA_label;
 training_instance_matrix=IQA_feature;
 folds = 5;
 if(strcmp(dataset_name,'TID2013'))
-    [C,gamma] = meshgrid(0:0.2:6, -6:0.2:-1); 
+    [C,gamma] = meshgrid(0:0.4:6, -6:0.4:-1); 
 elseif(strcmp(dataset_name,'LIVE'))
     [C,gamma] = meshgrid(0:0.2:6, -8:0.2:-1);  %c:6   gamma:-6  步长原来0.2
 elseif(strcmp(dataset_name,'CID2013'))

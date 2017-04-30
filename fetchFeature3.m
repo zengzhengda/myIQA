@@ -71,7 +71,7 @@ for level=1:cnt_img_level
     [L_nss_fea]=fetchNSSFea(disimg_gray);
     nss_fea=[L_nss_fea(1:5) M_nss_fea(1:5) N_nss_fea(1:5) L_nss_fea(6:10) M_nss_fea(6:10) N_nss_fea(6:10)]; % 前面是mean 后面是median
     %% 特征向量
-    % 基本特征6 鲁棒基本特征6 梯度特征6 鲁棒梯度特征6 sharpness特征3项 NSS特征30  显著性特征2
+    % 基本特征6 鲁棒基本特征6 梯度特征6 鲁棒梯度特征6 NSS特征30 sharpness特征3项  显著性特征2
     % 共44项
     feature=[feature feature_base grad_fea feature_base_robust grad_fea_robust nss_fea sharpness_fea  feature_saliency];
     

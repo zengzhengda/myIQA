@@ -110,7 +110,7 @@ for j=1:5
     disname=strcat(disname,'.bmp');
     % refimg=imread(char(refname));
     disimg=imread(disname);
-    fea=fetchFeature(disimg,cnt_img_level);
+    fea=fetchFeature3(disimg,cnt_img_level);
     fea_mat=[fea_mat;fea];   
     
     cnt_img=cnt_img+1   % ¼ÇÊı
