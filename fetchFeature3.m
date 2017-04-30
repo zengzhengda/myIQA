@@ -56,22 +56,25 @@ for level=1:cnt_img_level
     
     %% FISH特征
     fish_fea=fetch_fish(disimg_gray);% 1项
-    %% MLV特征（描述sharpness）
-    mlv_fea=MLVSharpnessMeasure(disimg_gray);
+%     %% MLV特征（描述sharpness）
+%     mlv_fea=MLVSharpnessMeasure(disimg_gray);
     %% sharpness 特征
-    sharpness_fea=[mlv_fea fish_fea]; % 3项
+    sharpness_fea=[fish_fea]; % 1项
 %     sharpness_fea=[mlv_fea grad_fea]; % 8项
     %% NSS特征
-
-     %% MN分量的统计特征
+     % MN分量的统计特征
     [M_nss_fea]=fetchNSSFea(M);
     [N_nss_fea]=fetchNSSFea(N);
     
-    %% L分量NSS特征
+    % L分量NSS特征
     [L_nss_fea]=fetchNSSFea(disimg_gray);
-    nss_fea=[L_nss_fea(1:5) M_nss_fea(1:5) N_nss_fea(1:5) L_nss_fea(6:10) M_nss_fea(6:10) N_nss_fea(6:10)]; % 前面是mean 后面是median
+    % MAX MIn映射图
+    [map_max map_min]=MaxMinLVMap(disimg_gray);
+    [Lmax_nss_fea]=fetchNSSFea(map_max);
+    [Lmin_nss_fea]=fetchNSSFea(map_min);
+    nss_fea=[L_nss_fea(1:5) M_nss_fea(1:5) N_nss_fea(1:5) Lmax_nss_fea(1:5) Lmin_nss_fea(1:5)  L_nss_fea(6:10) M_nss_fea(6:10) N_nss_fea(6:10) Lmax_nss_fea(6:10) Lmin_nss_fea(6:10)]; % 前面是mean 后面是median
     %% 特征向量
-    % 基本特征6 鲁棒基本特征6 梯度特征6 鲁棒梯度特征6 NSS特征30 sharpness特征3项  显著性特征2
+    % 基本特征6 鲁棒基本特征6 梯度特征6 鲁棒梯度特征6 NSS特征50 sharpness特征1项  显著性特征2
     % 共44项
     feature=[feature feature_base grad_fea feature_base_robust grad_fea_robust nss_fea sharpness_fea  feature_saliency];
     
