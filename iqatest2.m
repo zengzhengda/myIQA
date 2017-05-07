@@ -12,7 +12,8 @@ dataset_name=dataset_names{1};% 选择数据库
 % fetchFeatureAll(dataset_name);
 %% 性能评价
 % load(['my_mat_' lower(dataset_name)]);
-load('my_mat_cid2013');
+% load('my_mat_cid2013');
+load('my_mat_cid2013_20170506');
 % 去除参考图像
 %  load('..\Datasets\LIVE\dmos_realigned.mat');
 %  orgs2=orgs(1:end-174);
@@ -26,7 +27,7 @@ if(isFeatureAnalyse ~=1)
     num_grad=6;
     num_nss=25;
     num_sharp=1;
-    num_salient=2;
+    num_salient=1;
     % 基本特征
     start=14; % 2是一般的，14是鲁棒的
     base_fea=[my_mat(:,start:start+num_base-1) my_mat(:,start+num_fea : start+num_base+num_fea-1)];
