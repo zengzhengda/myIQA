@@ -9,9 +9,10 @@ dataset_name=dataset_names{1};% 选择数据库
 % load best_svr_param_tid2013;
 
 %% 特征提取   
-fetchFeatureAll(dataset_name);
+% fetchFeatureAll(dataset_name);
 %% 性能评价
-load(['my_mat_' lower(dataset_name)]);
+% load(['my_mat_' lower(dataset_name)]);
+load('my_mat_cid2013');
 % 去除参考图像
 %  load('..\Datasets\LIVE\dmos_realigned.mat');
 %  orgs2=orgs(1:end-174);
@@ -23,7 +24,7 @@ if(isFeatureAnalyse ~=1)
     num_fea=(size(my_mat,2)-2)/2;
     num_base=6;
     num_grad=6;
-    num_nss=15;
+    num_nss=25;
     num_sharp=1;
     num_salient=2;
     % 基本特征
@@ -33,16 +34,16 @@ if(isFeatureAnalyse ~=1)
     start=20; % 8是一般的，20是鲁棒的
     grad_fea=[my_mat(:,start:start+num_grad-1) my_mat(:,start+num_fea : start+num_grad+num_fea-1)];
     % nss特征
-    start=41;
+    start=51;
     nss_fea=[my_mat(:,start:start+num_nss-1) my_mat(:,start+num_fea : start+num_nss+num_fea-1)];
     % sharp特征
-    start=56;
+    start=76;
     sharp_fea=[my_mat(:,start:start+num_sharp-1) my_mat(:,start+num_fea : start+num_sharp+num_fea-1)];
     % salient 特征
-    start=59;
+    start=77;
     salient_fea=[my_mat(:,start:start+num_salient-1) my_mat(:,start+num_fea : start+num_salient+num_fea-1)];
 
-    my_mat=[my_mat(:,1) base_fea grad_fea nss_fea sharp_fea salient_fea my_mat(:,end)]; 
+    my_mat=[my_mat(:,1)  base_fea grad_fea nss_fea sharp_fea salient_fea my_mat(:,end)]; 
 end
 %% 去除不合适的数据
 my_mat(404,:)=[];
@@ -52,7 +53,7 @@ mu_my=mean(my_mat(:,2:end));
 sigma2_my=mean((my_mat(:,2:end)-repmat(mu_my,cnt_data,1)).^2);
 my_mat=[my_mat(:,1),(my_mat(:,2:end)-repmat(mu_my,cnt_data,1))./repmat((sigma2_my.^0.5),cnt_data,1)];
 %% 交叉验证
-cnt_cross=100;% 交叉验证次数
+cnt_cross=1000;% 交叉验证次数
 CC=zeros(1,cnt_cross);
 SROCC=zeros(1,cnt_cross);
 RMSE=zeros(1,cnt_cross);

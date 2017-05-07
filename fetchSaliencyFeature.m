@@ -1,8 +1,9 @@
 function [mu,sigma,beta,VSMap]=fetchSaliencyFeature(image,sigmaF,omega0,sigmaD,sigmaC)
 VSMap=SDSP(image,sigmaF,omega0,sigmaD,sigmaC);
-mscn_VS=MSCN(VSMap);
-mu=mean2(mscn_VS);
-mu_sq=mean2(mscn_VS.*mscn_VS);
+% VS_uint=MSCN(VSMap);
+VS_uint=MDSCN(VSMap);
+mu=mean2(VS_uint);
+mu_sq=mean2(VS_uint.*VS_uint);
 sigma=std2(VSMap);
 beta=sqrt((mu_sq-mu^2)/2);
 end

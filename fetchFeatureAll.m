@@ -63,7 +63,7 @@ for i=1:6
                 %%
                 ori_img_dataset{cnt_img}=disimg;
                 cnt_img=cnt_img+1;
-                fea=fetchFeature3(disimg,cnt_img_level); % 分析NSS
+                fea=analyseSalientFeature(disimg,cnt_img_level); % 分析salient
                 fea_mat=[fea_mat;fea];               
 
             end
@@ -73,7 +73,7 @@ end
 % fclose(fid);
 img_ind=(1:len_imgs)';
 my_mat=[img_ind,fea_mat,img_mos]; % 最后一列为y
-save my_mat_cid2013_nss.mat my_mat;   
+save my_mat_cid2013_salient.mat my_mat;   
 % save ori_img_dataset.mat ori_img_dataset;
 end
 
