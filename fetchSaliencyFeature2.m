@@ -1,10 +1,10 @@
-function [mu,sigma,beta,VSMap]=fetchSaliencyFeature(image,sigmaF,omega0,sigmaD,sigmaC)
+function [med,mad,beta,VSMap]=fetchSaliencyFeature2(image,sigmaF,omega0,sigmaD,sigmaC)
 VSMap=SDSP(image,sigmaF,omega0,sigmaD,sigmaC);
-% VS_uint=MSCN(VSMap);
+med=median(VSMap(:));
+mad=mean2(abs(VSMap-med));
 VS_uint=MSCN(VSMap);
 mu=mean2(VS_uint);
 mu_sq=mean2(VS_uint.*VS_uint);
-sigma=std2(VSMap);
 beta=sqrt((mu_sq-mu^2)/2);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
