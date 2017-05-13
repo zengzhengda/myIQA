@@ -3,13 +3,23 @@ clear;
 close all;
 
 img={};
-path{1}='IS_I_C03_D04_7.3705';
-path{2}='IS_I_C03_D01_31.0333';
-path{3}='IS_I_C03_D02_94.3333';
+% path{1}='IS_I_C04_D06_54.3';
+% path{2}='IS_IV_C04_D07_69.4';
+% path{3}='IS_I_C04_D11_83.0';
+% img_name{1}='MOS=54.3';
+% img_name{2}='MOS=69.4';
+% img_name{3}='MOS=83.0';
 
-img_name{1}='IS\_I\_C03\_D04\_7.3705';
-img_name{2}='IS\_I\_C03\_D01\_31.0333';
-img_name{3}='IS\_I\_C03\_D02\_94.3333';
+path{1}='IS_VI_C06_D01_29.8';
+path{2}='IS_VI_C06_D05_64.8';
+path{3}='IS_VI_C06_D10_87.9';
+img_name{1}='MOS=29.8';
+img_name{2}='MOS=64.8';
+img_name{3}='MOS=87.9';
+
+trunc_val=0.2e1;
+tmp1=1e17;
+thresh_y=5e5;
 
 for i=1:length(path)
     img{i}=imread([path{i},'.jpg']);
@@ -17,39 +27,193 @@ end
 cnt_img=length(img);
 cnt_img_level=1;
 for i=1:cnt_img
-[fea{i} VSMap{i} grad_map1{i} structdis{i} M{i} N{i}]=fetchFeature2(img{i},cnt_img_level);
+[structdis_L{i},structdis_M{i},structdis_N{i},structdis_Lmax{i},structdis_Lmin{i},feature]=analyseNSSFeature(img{i});
 end
-%% 显著性特征的直方图统计
-figure('name','显著性特征的直方图统计');
+%% L的MDSCN特征的直方图统计
+figure('name','L的MDSCN的直方图统计');
 for i=1:cnt_img
 %     subplot(1,cnt_img,i);
-    histogram(VSMap{i});
+    ind1=find(structdis_L{i}>trunc_val);
+    ind2=find(structdis_L{i}<-trunc_val);
+    ind=[ind1;ind2];
+    structdis_L{i}(ind)=[];
+    h_L=histogram(structdis_L{i});
+    h_values{i}=h_L.Values;
+    h_edges{i}=h_L.BinEdges;
     hold on;
 end
 legend(img_name{1},img_name{2},img_name{3});
+
+%L的折线图
+figure('name','L的MDSCN的折线图');
+for i=1:cnt_img
+    y=h_values{i};
+    x=h_edges{i};
+    ind=find(y~=0);
+    y2=y(ind);
+    x2=x(ind)/(tmp1);
+    plot(x2,y2,'*-');
+    hold on;
+end
+xlabel('MDSCN of Luminance')
+ylabel('Number of Coffecients')
+legend(img_name{1},img_name{2},img_name{3});
+
+%% M的MDSCN特征的直方图统计
+figure('name','M的MDSCN的直方图统计');
+for i=1:cnt_img
+%     subplot(1,cnt_img,i);
+    structdis=structdis_M{i};
+    ind1=find(structdis>trunc_val*0.01);
+    ind2=find(structdis<-trunc_val*0.01);
+    ind=[ind1;ind2];
+    structdis(ind)=[];
+    h=histogram(structdis);
+    h_values{i}=h.Values;
+    h_edges{i}=h.BinEdges;
+    hold on;
+end
+legend(img_name{1},img_name{2},img_name{3});
+
+%% M的折线图
+figure('name','M的MDSCN的折线图');
+for i=1:cnt_img
+    y=h_values{i};
+    x=h_edges{i};
+    [~,ind_max]=max(y);
+    if(y(ind_max-1) < 5e4)
+        y(ind_max-1)=[];
+        x(ind_max-1)=[];
+    end
+    ind=find(y~=0);
+    y2=y(ind);
+    ind2=find(y2>thresh_y);
+    y2(ind2)=y2(ind2);
+    x2=x(ind)/(tmp1);
+    plot(x2,y2,'*-');
+%     plot(y2,'*-')
+    hold on;
+end
+xlabel('MDSCN of M component')
+ylabel('Number of Coffecients')
+legend(img_name{1},img_name{2},img_name{3});
+
+%% N的MDSCN特征的直方图统计
+figure('name','N的MDSCN的直方图统计');
+for i=1:cnt_img
+%     subplot(1,cnt_img,i);
+    structdis=structdis_N{i};
+    ind1=find(structdis>trunc_val*0.05);
+    ind2=find(structdis<-trunc_val*0.05);
+    ind=[ind1;ind2];
+    structdis(ind)=[];
+    h=histogram(structdis);
+    h_values{i}=h.Values;
+    h_edges{i}=h.BinEdges;
+    hold on;
+end
+legend(img_name{1},img_name{2},img_name{3});
+
+% N的折线图
+figure('name','N的MDSCN的折线图');
+for i=1:cnt_img
+    y=h_values{i};
+    x=h_edges{i};
+    ind=find(y~=0);
+    y2=y(ind);
+    x2=x(ind)/(tmp1);
+    plot(x2,y2,'*-');
+    hold on;
+end
+xlabel('MDSCN of N component')
+ylabel('Number of Coffecients')
+legend(img_name{1},img_name{2},img_name{3});
+
+%% Lmax的MDSCN特征的直方图统计
+figure('name','Lmax的MDSCN的直方图统计');
+for i=1:cnt_img
+%     subplot(1,cnt_img,i);
+    structdis=structdis_Lmax{i};
+    ind1=find(structdis>trunc_val);
+    ind2=find(structdis<-trunc_val);
+    ind=[ind1;ind2];
+    structdis(ind)=[];
+    h=histogram(structdis);
+    h_values{i}=h.Values;
+    h_edges{i}=h.BinEdges;
+    hold on;
+end
+legend(img_name{1},img_name{2},img_name{3});
+
+% Lmax的折线图
+figure('name','Lmax的MDSCN的折线图');
+for i=1:cnt_img
+    y=h_values{i};
+    x=h_edges{i};
+    ind=find(y~=0);
+    y2=y(ind);
+    x2=x(ind)/(tmp1);
+    plot(x2,y2,'*-');
+    hold on;
+end
+xlabel('MDSCN of Maximum Local Component')
+ylabel('Number of Coffecients')
+legend(img_name{1},img_name{2},img_name{3});
+
+%% Lmin的MDSCN特征的直方图统计
+figure('name','Lmin的MDSCN的直方图统计');
+for i=1:cnt_img
+%     subplot(1,cnt_img,i);
+    structdis=structdis_M{i};
+    ind1=find(structdis>trunc_val*0.01);
+    ind2=find(structdis<-trunc_val*0.01);
+    ind=[ind1;ind2];
+    structdis(ind)=[];
+    h=histogram(structdis);
+    h_values{i}=h.Values;
+    h_edges{i}=h.BinEdges;
+    hold on;
+end
+legend(img_name{1},img_name{2},img_name{3});
+
+% Lmin的折线图
+figure('name','Lmin的MDSCN的折线图');
+for i=1:cnt_img
+    y=h_values{i};
+    x=h_edges{i};
+    ind=find(y~=0);
+    y2=y(ind);
+    x2=x(ind)/(tmp1);
+    plot(x2,y2,'*-');
+    hold on;
+end
+xlabel('MDSCN of Minimum Local Component')
+ylabel('Number of Coffecients')
+legend(img_name{1},img_name{2},img_name{3});
+
 %% 显著性特征的MSCN
-figure('name','显著性特征的MSCN');
-for i=1:cnt_img
-mscn_VSMap{i}=MSCN(VSMap{i});
-ind1=find(mscn_VSMap{i}>1);
-ind2=find(mscn_VSMap{i}<-1);
-mscn_VSMap{i}(ind1)=1;
-mscn_VSMap{i}(ind2)=-1;
-subplot(1,cnt_img,i);
-h_mscn_vs{i}=histogram(mscn_VSMap{i});
-legend(img_name{i});
-hold on;
-end
+% figure('name','显著性特征的MSCN');
+% for i=1:cnt_img
+% mscn_VSMap{i}=MSCN(VSMap{i});
+% ind1=find(mscn_VSMap{i}>1);
+% ind2=find(mscn_VSMap{i}<-1);
+% mscn_VSMap{i}(ind1)=1;
+% mscn_VSMap{i}(ind2)=-1;
+% subplot(1,cnt_img,i);
+% h_mscn_vs{i}=histogram(mscn_VSMap{i});
+% legend(img_name{i});
+% hold on;
+% end
 
 
-figure('name','显著性特征MSCN拟合')
-for i=1:cnt_img
-    h_values=h_mscn_vs{i}.Values;
-    h_values2=h_values(1:4:end);
-    plot(h_values2,'*-');
-    hold on;
-end
-legend(img_name{1},img_name{2},img_name{3});
+% figure('name','显著性特征MSCN拟合')
+% for i=1:cnt_img
+%     h_values=h_mscn_vs{i}.Values;
+%     h_values2=h_values(1:4:end);
+%     plot(h_values2,'*-');
+%     hold on;
+% end
+% legend(img_name{1},img_name{2},img_name{3});
 %% 原图的直方图
 % figure('name','原图的直方图');
 % for i=1:cnt_img

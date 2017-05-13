@@ -29,13 +29,13 @@ if(isFeatureAnalyse ~=1)
     num_sharp=1;
     num_salient=2;
     % 基本特征
-    start=14; % 2是一般的，14是鲁棒的
+    start=2; % 2是一般的，14是鲁棒的
     base_fea=[my_mat(:,start:start+num_base-1) my_mat(:,start+num_fea : start+num_base+num_fea-1)];
     %梯度特征
-    start=20; % 8是一般的，20是鲁棒的
+    start=8; % 8是一般的，20是鲁棒的
     grad_fea=[my_mat(:,start:start+num_grad-1) my_mat(:,start+num_fea : start+num_grad+num_fea-1)];
-    % nss特征
-    start=51;
+    % nss特征 
+    start=26; % 26是一般的，51是鲁棒的
     nss_fea=[my_mat(:,start:start+num_nss-1) my_mat(:,start+num_fea : start+num_nss+num_fea-1)];
     % sharp特征
     start=76;
@@ -44,7 +44,7 @@ if(isFeatureAnalyse ~=1)
     start=77;
     salient_fea=[my_mat(:,start:start+num_salient-1) my_mat(:,start+num_fea : start+num_salient+num_fea-1)];
 
-    my_mat=[my_mat(:,1)  base_fea grad_fea nss_fea sharp_fea salient_fea my_mat(:,end)]; 
+    my_mat=[my_mat(:,1) base_fea grad_fea nss_fea my_mat(:,end)]; 
 end
 %% 去除不合适的数据
 my_mat(404,:)=[];
