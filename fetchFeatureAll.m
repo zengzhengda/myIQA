@@ -4,7 +4,10 @@ function fetchFeatureAll(dataset_name)
 cnt_img_level=2;% Í¼ÏñµÄ²ã¼¶
 
 if(strcmp(dataset_name,'CID2013'))
-    fetchFeatureAll_CID2013(cnt_img_level);
+    % fetchFeatureAll_CID2013(cnt_img_level);
+    % fetch IDEAL features
+    metric='IDEAL';
+    fetchFeatureOther_CID2013(metric)
 elseif(strcmp(dataset_name,'LIVE'))
     fetchFeatureAll_LIVE(cnt_img_level);
 elseif(strcmp(dataset_name,'TID2013'))
