@@ -73,7 +73,7 @@ end
 % fclose(fid);
 img_ind=(1:len_imgs)';
 my_mat=[img_ind,fea_mat,img_mos]; % 最后一列为y
-save my_mat_cid2013_20170514.mat my_mat;   
+save my_mat_cid2013_20170517.mat my_mat;   
 % save ori_img_dataset.mat ori_img_dataset;
 end
 
@@ -119,7 +119,7 @@ end
 
 img_ind=(1:len_imgs)';
 my_mat=[img_ind,fea_mat,dmos_new']; % 最后一列为y
-save my_mat_live_20170514.mat my_mat;   
+save my_mat_live_20170517.mat my_mat;   
 % save ori_img_dataset.mat ori_img_dataset;
 end
 
@@ -151,5 +151,5 @@ for i=1:25
 end
 img_ind=(1:len_imgs)';
 my_mat=[img_ind,fea_mat,mos]; % 最后一列为y
-save my_mat_tid2013.mat my_mat;  
+save my_mat_tid2013_20170517.mat my_mat;
 end

@@ -28,7 +28,7 @@ if(mode==1)
     nss_fea=[nss_alpha nss_overallstd nss_skewness nss_kurtosis nss_entropy];
 elseif(mode==2)
 %采用中值局部归一化
-    win_scale=[7,7];
+    win_scale=[3,3];
     med_map=medfilt2(disimg,win_scale);
     
 %     [mad_map]=immovmad(disimg,med_map);
@@ -62,7 +62,7 @@ else
     nss_fea_mean=[nss_alpha_mean nss_overallstd_mean nss_skewness_mean nss_kurtosis_mean nss_entropy_mean];
     
     %采用中值局部归一化
-    win_scale=[7,7];
+    win_scale=[3,3];
     med_map=medfilt2(disimg,win_scale);
     med_sq=med_map.*med_map;
     sigma_rob=sqrt(abs(medfilt2(disimg.*disimg,win_scale) - med_sq));

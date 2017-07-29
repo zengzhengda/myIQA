@@ -5,15 +5,15 @@ warning('off'); % 不显示warning
                     
 % 选择数据库
 dataset_names={'CID2013','LIVE','TID2013'};
-dataset_name=dataset_names{2};% 选择数据库
+dataset_name=dataset_names{1};% 选择数据库
 % load best_svr_param_tid2013;
 
 %% 特征提取   
 % fetchFeatureAll(dataset_name);
 %% 性能评价
 % load(['my_mat_' lower(dataset_name)]);
-load('my_mat_cid2013');
-% load('my_mat_cid_20170514');
+% load('my_mat_cid2013');
+load('my_mat_tid2013_20170517');
 % 去除参考图像
 %  load('..\Datasets\LIVE\dmos_realigned.mat');
 %  orgs2=orgs(1:end-174);
@@ -29,13 +29,13 @@ if(isFeatureAnalyse ~=1)
     num_sharp=1;
     num_salient=2;
     % 基本特征
-    start=14; % 2是一般的，14是鲁棒的
+    start=2; % 2是一般的，14是鲁棒的
     base_fea=[my_mat(:,start:start+num_base-1) my_mat(:,start+num_fea : start+num_base+num_fea-1)];
     %梯度特征
-    start=20; % 8是一般的，20是鲁棒的
+    start=8; % 8是一般的，20是鲁棒的
     grad_fea=[my_mat(:,start:start+num_grad-1) my_mat(:,start+num_fea : start+num_grad+num_fea-1)];
     % nss特征 
-    start=51; % 26是一般的，51是鲁棒的
+    start=26; % 26是一般的，51是鲁棒的
     nss_fea=[my_mat(:,start:start+num_nss-1) my_mat(:,start+num_fea : start+num_nss+num_fea-1)];
     % sharp特征
     start=76;
@@ -43,7 +43,7 @@ if(isFeatureAnalyse ~=1)
     % salient 特征
     start=77;
     salient_fea=[my_mat(:,start:start+num_salient-1) my_mat(:,start+num_fea : start+num_salient+num_fea-1)];
-
+ 
     my_mat=[my_mat(:,1) base_fea grad_fea nss_fea sharp_fea salient_fea my_mat(:,end)]; 
 end
 %% 去除不合适的数据

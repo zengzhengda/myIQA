@@ -51,7 +51,7 @@ for level=1:cnt_img_level
     omega0 = 0.0210;%fixed
     sigmaD = 145;%fixed
     sigmaC = 0.001;%fixed
-    [mu_saliency,sigma_saliency,beta_saliency,VSMap]=fetchSaliencyFeature(disimg,sigmaF,omega0,sigmaD,sigmaC);
+    [mu_saliency,sigma_saliency,beta_saliency,VSMap]=fetchSaliencyFeature2(disimg,sigmaF,omega0,sigmaD,sigmaC);
     feature_saliency=[mu_saliency,beta_saliency];   
     
     %% FISHÌØÕ÷
