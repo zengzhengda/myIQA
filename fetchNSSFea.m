@@ -10,7 +10,7 @@ disimg=double(disimg);
 % mu_sq=mu.*mu;
 % sigma=sqrt(abs(filter2(window, disimg.*disimg, 'same') - mu_sq)); % sigma的求法
 % structdis=(disimg-mu)./(sigma+eps);
-mode =2; % 1 mean,2 median, 3 mean and median 
+mode =3; % 1 mean,2 median, 3 mean and median 
 nss_fea=[];
 if(mode==1)
     % 平均滤波
@@ -28,16 +28,17 @@ if(mode==1)
     nss_fea=[nss_alpha nss_overallstd nss_skewness nss_kurtosis nss_entropy];
 elseif(mode==2)
 %采用中值局部归一化
-    win_scale=[3,3];
+    win_scale=[7,7];
     med_map=medfilt2(disimg,win_scale);
     
-    [mad_map]=immovmad(disimg,med_map);
-    structdis=(disimg-med_map)./(mad_map+eps);
-%     med_sq=med_map.*med_map;
-%     tmp1=medfilt2(disimg.*disimg,win_scale);
-%     tmp2=tmp1 - med_sq;
-%     sigma_rob=sqrt(abs(tmp2));
-%     structdis=(disimg-med_map)./(sigma_rob+eps);
+%     [mad_map]=immovmad(disimg,med_map);
+%     structdis=(disimg-med_map)./(mad_map+eps);
+
+    med_sq=med_map.*med_map;
+    tmp1=medfilt2(disimg.*disimg,win_scale);
+    tmp2=tmp1 - med_sq;
+    sigma_rob=sqrt(abs(tmp2));
+    structdis=(disimg-med_map)./(sigma_rob+eps);
 %     structdis2=(disimg-med_map);
 
     [nss_alpha nss_overallstd]=estimateggdparam(structdis(:));
@@ -61,7 +62,7 @@ else
     nss_fea_mean=[nss_alpha_mean nss_overallstd_mean nss_skewness_mean nss_kurtosis_mean nss_entropy_mean];
     
     %采用中值局部归一化
-    win_scale=[3,3];
+    win_scale=[7,7];
     med_map=medfilt2(disimg,win_scale);
     med_sq=med_map.*med_map;
     sigma_rob=sqrt(abs(medfilt2(disimg.*disimg,win_scale) - med_sq));

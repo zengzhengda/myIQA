@@ -17,7 +17,7 @@ img_name{1}='MOS=29.8';
 img_name{2}='MOS=64.8';
 img_name{3}='MOS=87.9';
 
-trunc_val=0.2e1;
+trunc_val=1e17;
 tmp1=1e17;
 thresh_y=5e5;
 
