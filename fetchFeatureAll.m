@@ -7,7 +7,14 @@ if(strcmp(dataset_name,'CID2013'))
     % fetchFeatureAll_CID2013(cnt_img_level);
     % fetch IDEAL features
     metric='IDEAL';
-    fetchFeatureOther_CID2013(metric)
+    fetchFeatureOther_CID2013(metric);
+
+    % BRISQUE
+    fetchFeatureOther_CID2013('BRISQUE');
+
+    % BLIINDS2
+    fetchFeatureOther_CID2013('BLIINDS2');
+    
 elseif(strcmp(dataset_name,'LIVE'))
     fetchFeatureAll_LIVE(cnt_img_level);
 elseif(strcmp(dataset_name,'TID2013'))
