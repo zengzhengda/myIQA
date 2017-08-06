@@ -5,7 +5,7 @@ training_label_vector1=IQA_label;
 training_instance_matrix=IQA_feature;
 folds = 5;
 
-[C,gamma] = meshgrid(0:0.4:6, -6:0.4:-1); 
+[C,gamma] = meshgrid(0:2:8, -8:2:0); 
 
 %# grid search, and cross-validation
 cv_acc = zeros(numel(C),1);
